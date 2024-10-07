@@ -13,3 +13,17 @@ body {
 html {
   background: var(--background) !important;
 }
+
+/* Para modo claro */
+@media (prefers-color-scheme: light) {
+  body {
+    background-color: #FBF9F1;
+  }
+}
+
+/* Para modo oscuro */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #FBF9F1;
+  }
+}
