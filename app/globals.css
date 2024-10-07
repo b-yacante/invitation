@@ -3,7 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #FBF9F1;
+  --background: #FBF9F1 !important;
+  --darkreader-bg--background: #FBF9F1 !important;
 }
 
 body {
