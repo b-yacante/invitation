@@ -14,7 +14,7 @@ const bodoni = Bodoni_Moda({
 
 export default function Home() {
   return (
-    <div className="grid min-h-screen">
+    <div className="grid min-h-screen bg-[#FBF9F1]">
       {/* background */}
       <div className="fixed min-h-screen min-w-full opacity-90">
         <Image
