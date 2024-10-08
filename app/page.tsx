@@ -1,31 +1,34 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { MdArrowOutward } from "react-icons/md";
-import Image from "next/image";
-import { Updock, Bodoni_Moda } from "next/font/google";
+import Link from 'next/link';
+import { MdArrowOutward } from 'react-icons/md';
+import { Updock, Bodoni_Moda } from 'next/font/google';
+import ConfirmDialog from './components/confirm-invitation-dialog';
+import { useState } from 'react';
+import RegaloDialog from './components/regalo-dialog';
 
-const updock = Updock({ weight: ["400"], subsets: ["latin"] });
+const updock = Updock({ weight: ['400'], subsets: ['latin'] });
 const bodoni = Bodoni_Moda({
-  weight: ["400"],
-  subsets: ["latin"],
-  display: "swap",
+  weight: ['400'],
+  subsets: ['latin'],
+  display: 'swap',
 });
 
 export default function Home() {
+  const [openConfirmDialog, setConfirmDialog] = useState(false);
+  const [openRegaloDialog, setRegaloDialog] = useState(false);
   return (
-    <div className="grid min-h-screen bg-[#FBF9F1]">
+    <div className="flex flex-col min-h-screen bg-[#FBF9F1]">
       {/* background */}
-      <div className="fixed min-h-screen min-w-full opacity-90">
-        <Image
+      <div className="relative h-full min-w-full opacity-90">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src="invitation.svg"
           alt="invitation"
-          layout="fill"
-          objectFit="contain"
-          quality={100}
+          className="absolute top-0 h-auto object-contain border-solid border-slate-500 border-2"
         />
       </div>
-      <main className="flex flex-col items-center justify-center">
+      <main className="flex flex-col items-center justify-center py-12 md:mt-20">
         <div className={`${updock.className} text-3xl`}>
           <div>Te invito</div>
         </div>
@@ -36,10 +39,10 @@ export default function Home() {
         </div>
 
         <div
-          className={`flex justify-center items-center text-base ${bodoni.className} mt-12`}
+          className={`flex justify-center items-center text-base ${bodoni.className} mt-8`}
         >
           {/* Dia */}
-          <div className="flex justify-center items-center max-h-10 border-dashed border-y-2 border-[#406086] px-1">
+          <div className="flex justify-center items-center max-h-10 border-solid border-y-2 border-[#406086] px-1">
             <p>SÁBADO</p>
           </div>
           <div className="grid place-items-center gap-y-2">
@@ -58,11 +61,42 @@ export default function Home() {
             </Link>
           </div>
           {/* Horario */}
-          <div className="flex justify-center items-center max-h-10 border-dashed border-y-2 border-[#406086] px-1">
+          <div className="flex justify-center items-center max-h-10 border-solid border-y-2 border-[#406086] px-1">
             9:30 PM
           </div>
         </div>
+        <div
+          className={`grid place-items-center ${updock.className} pt-6 text-3xl`}
+        >
+          Formal
+        </div>
       </main>
+      <div
+        className={`flex flex-col justify-end items-center max-h-60 grow mt-20 pb-6 ${bodoni.className}`}
+      >
+        <button
+          onClick={() => setRegaloDialog(true)}
+          className="flex space-x-2 mb-5 px-4 py-2 bg-slate-300 rounded-2xl shadow-md"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="gift.svg" alt="gift" className="h-6 w-6 shake-animation" />
+          <p className="text-lg font-extrabold">Regalo</p>
+        </button>
+        <button
+          onClick={() => setConfirmDialog(true)}
+          className="font-extrabold bg-gradient-to-br w-10/12 from-slate-200 to-slate-300 px-4 py-3 text-[#406086] rounded-xl border-double border-4 border-[#406086]/60 drop-shadow-lg active:from-slate-100 md:w-1/2"
+        >
+          Confirmar Asistencia
+        </button>
+      </div>
+      <ConfirmDialog
+        open={openConfirmDialog}
+        onClose={() => setConfirmDialog(false)}
+      />
+      <RegaloDialog
+        open={openRegaloDialog}
+        onClose={() => setRegaloDialog(false)}
+      />
     </div>
   );
 }

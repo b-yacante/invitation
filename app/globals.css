@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #FBF9F1 !important;
-  --darkreader-bg--background: #FBF9F1 !important;
+  --background: #fbf9f1 !important;
+  --darkreader-bg--background: #fbf9f1 !important;
 }
 
 body {
@@ -17,13 +17,38 @@ html {
 /* Para modo claro */
 @media (prefers-color-scheme: light) {
   body {
-    background-color: #FBF9F1;
+    background-color: #fbf9f1;
   }
 }
 
 /* Para modo oscuro */
 @media (prefers-color-scheme: dark) {
   body {
-    background-color: #FBF9F1;
+    background-color: #fbf9f1;
+  }
+}
+
+.shake-animation {
+  animation: tilt-shaking infinite 3s ease-in-out;
+}
+
+@keyframes tilt-shaking {
+  0% {
+    transform: rotate(0deg);
+  }
+  10%,
+  35% {
+    transform: rotate(5deg);
+  }
+  20% {
+    transform: rotate(0deg);
+  }
+  30%,
+  15% {
+    transform: rotate(-5deg);
+  }
+  40%,
+  100% {
+    transform: rotate(0deg);
   }
 }
