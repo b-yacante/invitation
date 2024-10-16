@@ -1,12 +1,11 @@
-'use client';
 import { IoClose } from 'react-icons/io5';
 import { CiCirclePlus, CiCircleMinus } from 'react-icons/ci';
 import { useState } from 'react';
-import handler from '../api/update-sheet';
 
 export interface ConfirmInvitationProps {
   open: boolean;
   onClose: () => void;
+  complete: () => void;
 }
 
 export interface IPerson {
@@ -16,9 +15,10 @@ export interface IPerson {
 
 export default function ConfirmDialog(props: ConfirmInvitationProps) {
   const [cantidadPersonas, setCantidadPersonas] = useState(1);
-  const [newPerson, setNewPerson] = useState<IPerson>({ name: '', amount: '' });
   const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const scriptURL =
+    'https://script.google.com/macros/s/AKfycbw5sZVyFS0TE9zuIiShbDmoL9Jw132XT2g34YQIJGJ7VlTcBaxlkJuXBijtEV_VGbep0g/exec';
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -31,35 +31,22 @@ export default function ConfirmDialog(props: ConfirmInvitationProps) {
     }
   }
 
-  function confirmDialog() {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     if (inputValue == '') return;
-    setNewPerson({ name: inputValue, amount: cantidadPersonas.toString() });
-    AddPerson();
-  }
+    setLoading(true);
+    const formData = new FormData();
+    formData.append('NOMBRE', inputValue);
+    formData.append('CANTIDAD', cantidadPersonas.toString());
 
-  async function AddPerson() {
-    if (newPerson.name == '') return;
-    if (newPerson.amount == '') return;
-    const value = [newPerson.name, newPerson.amount];
-    try {
-      setLoading(true);
-      const res = await fetch('api/update-sheet');
-      const data = await res.json();
-      //   handler(value);
-
-      //   await fetch('/api/update-sheet', {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify({ values: value }),
-      //   });
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-      console.warn(error);
-    }
-  }
+    await fetch(scriptURL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: formData,
+    });
+    setLoading(false);
+    props.complete();
+  };
 
   return (
     <div className={props.open ? 'block' : 'hidden'}>
@@ -76,7 +63,7 @@ export default function ConfirmDialog(props: ConfirmInvitationProps) {
             <IoClose size={24} />
           </button>
         </div>
-        <form action="" className="w-full px-6 space-y-2">
+        <form onSubmit={handleSubmit} className="w-full px-6 space-y-2">
           <div className="flex flex-col space-y-1">
             <p>Nombre y Apellido</p>
             <input
@@ -104,21 +91,21 @@ export default function ConfirmDialog(props: ConfirmInvitationProps) {
               </a>
             </div>
           </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="px-4 py-3 bg-slate-300 w-full rounded-lg grid place-items-center"
+          >
+            {loading && (
+              <div
+                className="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent text-slate-500 rounded-full"
+                role="status"
+                aria-label="loading"
+              ></div>
+            )}
+            <p className={loading ? 'hidden' : 'block'}>Confirmar</p>
+          </button>
         </form>
-        <button
-          onClick={confirmDialog}
-          disabled={loading}
-          className="px-4 py-3 bg-slate-300 rounded-lg w-10/12 grid place-items-center"
-        >
-          {loading && (
-            <div
-              className="animate-spin inline-block size-6 border-[3px] border-current border-t-transparent text-slate-500 rounded-full"
-              role="status"
-              aria-label="loading"
-            ></div>
-          )}
-          <p className={loading ? 'hidden' : 'block'}>Confirmar</p>
-        </button>
       </div>
       <div className="fixed top-0 left-0 h-screen w-screen bg-slate-500/50 z-0"></div>
     </div>

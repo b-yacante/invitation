@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { MdArrowOutward } from 'react-icons/md';
+import { FaCheck } from 'react-icons/fa';
 import { Updock, Bodoni_Moda } from 'next/font/google';
 import ConfirmDialog from './components/confirm-invitation-dialog';
 import { useState } from 'react';
@@ -17,6 +18,13 @@ const bodoni = Bodoni_Moda({
 export default function Home() {
   const [openConfirmDialog, setConfirmDialog] = useState(false);
   const [openRegaloDialog, setRegaloDialog] = useState(false);
+  const [confirmacion, setConfirmacion] = useState(false);
+
+  function AsistenciaConfirmada() {
+    setConfirmDialog(false);
+    setConfirmacion(true);
+  }
+
   return (
     <div className="flex flex-col min-h-screen bg-[#FBF9F1]">
       {/* background */}
@@ -84,14 +92,19 @@ export default function Home() {
         </button>
         <button
           onClick={() => setConfirmDialog(true)}
-          className="font-extrabold bg-gradient-to-br w-10/12 from-slate-200 to-slate-300 px-4 py-3 text-[#406086] rounded-xl border-double border-4 border-[#406086]/60 drop-shadow-lg active:from-slate-100 md:w-1/2"
+          disabled={confirmacion}
+          className={`font-extrabold bg-gradient-to-br w-10/12 ${confirmacion ? 'from-green-200 to-green-300 text-green-700 border-green-700/60 ' : 'from-slate-200 to-slate-300 text-[#406086] border-[#406086]/60 active:from-slate-100'} px-4 py-3 rounded-xl border-double border-4  drop-shadow-lg md:w-1/2`}
         >
-          Confirmar Asistencia
+          <p className="flex w-full text-center justify-center items-center">
+            {confirmacion ? 'Asistencia Confirmada' : 'Confirmar Asistencia'}
+            {confirmacion && <FaCheck className='ml-2' size={18} />}
+          </p>
         </button>
       </div>
       <ConfirmDialog
         open={openConfirmDialog}
         onClose={() => setConfirmDialog(false)}
+        complete={() => AsistenciaConfirmada()}
       />
       <RegaloDialog
         open={openRegaloDialog}
