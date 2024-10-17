@@ -13,8 +13,8 @@ export interface RegaloDialogProps {
 export default function RegaloDialog(props: RegaloDialogProps) {
   const [copySuccess, setCopySuccess] = useState('');
 
-  const alias = 'Este es el texto a copiar';
-  const cbu = 'Este es el texto a copiar';
+  const alias = 'fati.garcia.13';
+  const cbu = '0000003100011589123660';
 
   const copyAlias = async () => {
     try {
@@ -54,8 +54,8 @@ export default function RegaloDialog(props: RegaloDialogProps) {
             <IoClose size={24} />
           </button>
         </div>
-        <div className="flex items-center justify-around w-full h-12 p-2">
-          <div>Alias</div>
+        <div className="flex items-center justify-center space-x-2 w-full h-12 p-4">
+          <div>fati.garcia.13</div>
           <a
             onClick={copyAlias}
             className="bg-blue-500 text-white py-2 p-2 rounded-lg active:bg-blue-700"
@@ -63,8 +63,8 @@ export default function RegaloDialog(props: RegaloDialogProps) {
             <FaRegCopy size={20} />
           </a>
         </div>
-        <div className="flex items-center justify-around h-12 w-full pa-4">
-          <div>CBU</div>
+        <div className="flex items-center justify-center space-x-2 h-12 w-full p-4">
+          <div>0000003100011589123660</div>
           <a
             onClick={copyCBU}
             className="bg-blue-500 text-white py-2 p-2 rounded-lg active:bg-blue-700"
